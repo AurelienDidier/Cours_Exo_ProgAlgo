@@ -1,0 +1,124 @@
+class Arme:
+
+    def __init__(self, degat = 2):
+        self.__degat = degat
+
+    def getDegat(self):
+        return self.__degat
+
+class Epee(Arme):
+
+    def __init__(self, degat = 2):
+        super().__init__()
+
+class Baton(Arme):
+
+    def __init__(self, degat = 2):
+        super().__init__()
+
+class Arc(Arme):
+
+    def __init__(self, degat = 2):
+        super().__init__()
+        self.__nbFleches = 50
+        self.__nbFlechesMax = 50
+
+class Personnage :
+
+    __niveauMax = 99
+
+    def __init__(self, niveau =1 , force = 10, hp= 100, hpMax = 100):
+        self.__niveau = niveau
+        self.__force = force
+        self.__hp = hp
+        self.__hpMax = hpMax
+        self.__armeEquipe = Arme() #None
+        #self.__armesPossede = []
+
+    def estVivant(self):
+        return self.__hp > 0
+                                                                     
+    def equiperArme(self, arme):
+        raise NotImplementedError("Cette méthode est abstraite, donc à rédéfinir par les classes filles")
+
+    def attaquer(self, cible):
+        cible.__hp -= self.__force * self.__armeEquipe.getDegat()
+
+    def getForce (self):
+        return self.__force
+
+    def getHP (self):
+        return self.__hp
+
+    def setHP (self, hp):
+        if ( hp < 0):
+            self.__hp = 0
+        elif ( hp < self.__hpMax):
+            self.__hp = hp
+        else:
+            self.__hp = self.__hpMax
+
+    def setForce (self, force):
+            self.__force = force
+
+    def getNiveauMax():
+        return Personnage.__niveauMax
+
+class Mage (Personnage):
+
+    def __init__(self):
+        super().__init__()
+        self.__magie = 5
+
+    def equiperArme(self, arme):
+        if (isinstance (arme, Baton)):
+            self.equiperArme(arme)
+        else: 
+            print("Cette arme n'est pas pour moi.")
+
+class Guerrier(Personnage):
+
+    def __init__(self):
+        super().__init__()
+
+    def equiperArme(self, arme):
+        if (isinstance (arme, Epee)):
+            self.equiperArme(arme)
+        else: 
+            print("Cette arme n'est pas pour moi.")
+
+class Archer(Personnage):
+
+    def __init__(self):
+        super().__init__()
+        self.__dexterite = 10 
+
+    def equiperArme(self, arme):
+        if (isinstance (arme, Arc)):
+            self.equiperArme(arme)
+        else: 
+            print("Cette arme n'est pas pour moi.")
+
+
+class RPG:
+
+    def playTheGame():
+        heros = Guerrier()
+        heros.estVivant()
+
+        mechant = Mage()
+
+        baton = Arme(2)
+        epee = Arme(10)
+        epeeFinDuJeu = Arme(100)
+        arme = Arme()
+
+        heros.attaquer(mechant)
+        mechant.attaquer(heros)
+
+        print ("Les HP du heros sont :",  heros.getHP())
+        print ("La force du heros est :", heros.getForce())
+        print ("Le niveau max est : ", Personnage.getNiveauMax())
+
+RPG.playTheGame()
+
